@@ -976,9 +976,17 @@ function buildResult() {
   document.getElementById('result-desc-text').textContent     = result.desc;
 // 副人格
 const houseOrder2 = ['G','S','R','H'].filter(h => h !== topHouse);
-const subHouse = houseOrder2.reduce((a,b) => scores[a]>=scores[b]?a:b);
+const subHouse = houseOrder2.reduce((a,b) =>
+  scores[a] > scores[b] ? a :
+  scores[a] < scores[b] ? b :
+  Math.random() < 0.5 ? a : b
+);
 const traitOrder2 = ['O','C','E','A','N'].filter(t => t !== topTrait);
-const subTrait = traitOrder2.reduce((a,b) => scores[a]>=scores[b]?a:b);
+const subTrait = traitOrder2.reduce((a,b) =>
+  scores[a] > scores[b] ? a :
+  scores[a] < scores[b] ? b :
+  Math.random() < 0.5 ? a : b
+);
 const subKey = `${subHouse}_${subTrait}`;
 const subResult = RESULTS[subKey] || RESULTS[`${subHouse}_O`];
 const subDesc = SUB_RESULTS[subKey] || SUB_RESULTS[`${subHouse}_O`];
