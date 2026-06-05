@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>霍格沃茨分院测试 · 大五人格魔法版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Noto+Serif+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark:#0d0a1a; --bg-card:#13102a; --bg-parchment:#1a1430;
+  --gold:#c9a84c; --gold-light:#e8c97a; --gold-dim:#7a6130;
+  --silver:#a8b5c8; --text-main:#e8dfc8; --text-dim:#8a7e6a; --text-bright:#f5ead8;
+  --border:rgba(201,168,76,0.3); --border-bright:rgba(201,168,76,0.7);
+  --glow:rgba(201,168,76,0.15);
+  --gryffindor:#ae0001; --gryffindor2:#eeba30;
+  --slytherin:#1a472a;  --slytherin2:#aaaaaa;
+  --ravenclaw:#0e1a40;  --ravenclaw2:#946b2d;
+  --hufflepuff:#ecb939; --hufflepuff2:#372e29;
+  --radius:12px; --trans:all 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Serif SC','IM Fell English',serif;background:var(--bg-dark);color:var(--text-main);min-height:100vh;overflow-x:hidden;line-height:1.7;}
+.stars-layer{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(1px 1px at 10% 15%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 25% 40%,rgba(255,255,255,.3) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 50% 8%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 70% 30%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 85% 60%,rgba(255,255,255,.3) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 92% 10%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 5% 70%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 38% 85%,rgba(255,255,255,.3) 0%,transparent 100%),
+    radial-gradient(1px 1px at 60% 55%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 15% 90%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 78% 78%,rgba(255,255,255,.3) 0%,transparent 100%),
+    radial-gradient(1px 1px at 43% 62%,rgba(255,255,255,.5) 0%,transparent 100%);
+  animation:twinkle 8s ease-in-out infinite alternate;}
+@keyframes twinkle{0%{opacity:.6}100%{opacity:1}}
+#app{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:20px 16px 80px;min-height:100vh;}
+.gold-divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:20px 0;}
+.page{display:none;animation:fadeIn .5s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* HOME */
+#page-home{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:90vh;text-align:center;padding-top:40px;}
+.crest-wrap{position:relative;margin-bottom:24px;width:160px;height:160px;}
+.crest-wrap::before{content:'';position:absolute;inset:-20px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.12) 0%,transparent 70%);animation:pulseGlow 3s ease-in-out infinite;}
+@keyframes pulseGlow{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.1);opacity:1}}
+.crest-svg{width:160px;height:160px;filter:drop-shadow(0 0 20px rgba(201,168,76,.6));}
+.home-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.6rem,5vw,2.6rem);color:var(--gold-light);letter-spacing:.05em;line-height:1.3;text-shadow:0 0 30px rgba(201,168,76,.5);}
+.home-subtitle{font-family:'Cinzel',serif;font-size:clamp(.85rem,2.5vw,1.05rem);color:var(--silver);letter-spacing:.2em;margin-top:8px;text-transform:uppercase;}
+.home-desc{max-width:520px;font-size:.95rem;color:var(--text-dim);font-style:italic;line-height:1.9;margin-top:20px;}
+.btn-start{margin-top:36px;font-family:'Cinzel',serif;font-size:1.05rem;letter-spacing:.15em;color:var(--bg-dark);background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 50%,var(--gold) 100%);border:none;outline:none;padding:14px 48px;border-radius:4px;cursor:pointer;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(201,168,76,.4),inset 0 1px 0 rgba(255,255,255,.3);transition:var(--trans);}
+.btn-start::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.25) 50%,transparent 70%);transform:translateX(-100%);transition:transform .5s;}
+.btn-start:hover::before{transform:translateX(100%);}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,168,76,.6),inset 0 1px 0 rgba(255,255,255,.3);}
+.btn-start:active{transform:translateY(0);}
+.disclaimer{margin-top:24px;font-size:.72rem;color:var(--text-dim);opacity:.7;max-width:480px;line-height:1.6;}
+
+/* QUIZ */
+#page-quiz{padding-top:10px;}
+.progress-wrap{margin-bottom:28px;}
+.progress-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.progress-scene{font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;}
+.progress-count{font-size:.78rem;color:var(--text-dim);}
+.progress-bar-track{height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold-light));border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px var(--gold);}
+.question-card{background:linear-gradient(160deg,#1a1535 0%,#120f28 100%);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px 24px;position:relative;box-shadow:0 8px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(201,168,76,.1);}
+.question-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);border-radius:var(--radius) var(--radius) 0 0;}
+.scene-label{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:14px;}
+.question-num{font-family:'Cinzel',serif;font-size:.8rem;color:var(--text-dim);margin-bottom:6px;}
+.question-text{font-size:clamp(1rem,3vw,1.12rem);color:var(--text-bright);line-height:1.75;margin-bottom:24px;font-style:italic;}
+.options-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.option-btn{width:100%;text-align:left;background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:13px 16px 13px 44px;color:var(--text-main);font-family:'Noto Serif SC',serif;font-size:.92rem;line-height:1.55;cursor:pointer;position:relative;transition:var(--trans);}
+.option-btn .opt-letter{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-family:'Cinzel',serif;font-size:.72rem;font-weight:700;color:var(--gold-dim);width:20px;text-align:center;}
+.option-btn:hover{background:rgba(201,168,76,.08);border-color:var(--gold);color:var(--text-bright);transform:translateX(4px);}
+.option-btn:hover .opt-letter{color:var(--gold-light);}
+.option-btn.selected{background:rgba(201,168,76,.12);border-color:var(--gold);color:var(--text-bright);box-shadow:0 0 0 1px rgba(201,168,76,.3);}
+.option-btn.selected .opt-letter{color:var(--gold-light);}
+.quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:12px;}
+.btn-nav{font-family:'Cinzel',serif;font-size:.82rem;letter-spacing:.1em;padding:10px 24px;border-radius:4px;cursor:pointer;transition:var(--trans);border:1px solid var(--border);background:transparent;color:var(--text-dim);}
+.btn-nav:hover{border-color:var(--gold);color:var(--gold);}
+.btn-nav.primary{background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%);color:var(--bg-dark);border:none;font-weight:700;box-shadow:0 4px 16px rgba(201,168,76,.3);}
+.btn-nav.primary:hover{box-shadow:0 6px 24px rgba(201,168,76,.5);transform:translateY(-1px);}
+.btn-nav:disabled{opacity:.3;cursor:not-allowed;transform:none!important;}
+
+/* LOADING */
+#page-loading{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;text-align:center;}
+#page-loading.active{display:flex;}
+.sorting-hat-wrap{font-size:5rem;animation:float 2s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(201,168,76,.5));}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-12px) rotate(5deg)}}
+.loading-text{font-family:'Cinzel',serif;font-size:1rem;letter-spacing:.2em;color:var(--gold);margin-top:28px;animation:pulse 1.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+.loading-dots span{display:inline-block;animation:dotBounce 1.4s ease-in-out infinite;}
+.loading-dots span:nth-child(2){animation-delay:.2s;}
+.loading-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes dotBounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}}
+
+/* RESULT */
+#page-result{padding-top:10px;}
+.result-banner{border-radius:var(--radius);padding:36px 24px 28px;text-align:center;position:relative;overflow:hidden;margin-bottom:24px;border:1px solid rgba(255,255,255,.1);}
+.result-banner::before{content:'';position:absolute;inset:0;opacity:.07;background:repeating-linear-gradient(45deg,rgba(255,255,255,.3) 0px,rgba(255,255,255,.3) 1px,transparent 1px,transparent 20px);}
+.house-badge{font-size:5rem;display:block;margin-bottom:12px;filter:drop-shadow(0 0 20px currentColor);animation:badgePop .6s cubic-bezier(.175,.885,.32,1.275) both;animation-delay:.3s;opacity:0;}
+@keyframes badgePop{from{transform:scale(.3) rotate(-15deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.result-house-name{font-family:'Cinzel Decorative',serif;font-size:clamp(1.6rem,5vw,2.4rem);font-weight:700;text-shadow:0 0 30px currentColor;animation:slideUp .5s ease both;animation-delay:.6s;opacity:0;}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.result-house-motto{font-style:italic;font-size:.88rem;opacity:.7;margin-top:6px;animation:slideUp .5s ease both;animation-delay:.8s;opacity:0;}
+.result-personality-tag{display:inline-block;font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.2em;padding:5px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);margin-top:14px;animation:slideUp .5s ease both;animation-delay:1s;opacity:0;}
+.result-desc-card{background:linear-gradient(160deg,#1a1535,#120f28);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px;font-size:.95rem;line-height:1.9;color:var(--text-main);animation:slideUp .5s ease both;animation-delay:1.1s;opacity:0;}
+.result-desc-card h3{font-family:'Cinzel',serif;color:var(--gold);font-size:.9rem;letter-spacing:.15em;margin-bottom:12px;text-transform:uppercase;}
+.ocean-section{background:linear-gradient(160deg,#1a1535,#120f28);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px;animation:slideUp .5s ease both;animation-delay:1.3s;opacity:0;}
+.ocean-section h3{font-family:'Cinzel',serif;color:var(--gold);font-size:.9rem;letter-spacing:.15em;margin-bottom:20px;text-transform:uppercase;}
+.ocean-bar-item{margin-bottom:16px;}
+.ocean-bar-label{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:6px;}
+.ocean-bar-name{color:var(--text-main);font-weight:500;}
+.ocean-bar-val{color:var(--gold);font-family:'Cinzel',serif;}
+.ocean-bar-track{height:6px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;}
+.ocean-bar-fill{height:100%;width:0;border-radius:3px;transition:width 1.2s cubic-bezier(.4,0,.2,1);background:linear-gradient(90deg,var(--gold-dim),var(--gold-light));box-shadow:0 0 6px rgba(201,168,76,.4);}
+.btn-restart{width:100%;padding:14px;font-family:'Cinzel',serif;font-size:.92rem;letter-spacing:.15em;color:var(--gold);background:transparent;border:1px solid var(--border-bright);border-radius:4px;cursor:pointer;transition:var(--trans);margin-top:8px;animation:slideUp .5s ease both;animation-delay:1.6s;opacity:0;}
+.btn-restart:hover{background:rgba(201,168,76,.08);box-shadow:0 0 20px rgba(201,168,76,.2);}
+@media(max-width:480px){
+  #app{padding:12px 12px 80px;}
+  .question-card{padding:20px 16px 18px;}
+  .result-banner{padding:28px 16px 22px;}
+  .btn-nav{padding:10px 16px;font-size:.78rem;}
+}
+</style>
+</head>
+<body>
+<div class="stars-layer"></div>
+
+<!-- 🎵 BGM：替换 src 中的链接即可 -->
+<div id="bgm-container" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:999;">
+  <audio id="bgm" loop preload="auto">
+    <source src="https://music.163.com/song/media/outer/url?id=5197491.mp3" type="audio/mpeg">
+  </audio>
+  <button id="bgmBtn" onclick="toggleBGM()"
+    style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.1em;
+    background:rgba(13,10,26,.9);color:#c9a84c;border:1px solid rgba(201,168,76,.5);
+    border-radius:20px;padding:7px 18px;cursor:pointer;backdrop-filter:blur(8px);
+    box-shadow:0 0 16px rgba(201,168,76,.25);white-space:nowrap;">
+    🎵 BGM
+  </button>
+</div>
+
+<div id="app">
+  <!-- PAGE 1: HOME -->
+  <section id="page-home" class="page active">
+    <div class="crest-wrap">
+      <svg class="crest-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="cg" cx="50%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#e8c97a"/><stop offset="100%" stop-color="#7a6130"/>
+          </radialGradient>
+        </defs>
+        <path d="M100 10 L175 40 L175 130 Q175 175 100 195 Q25 175 25 130 L25 40 Z" fill="rgba(13,10,26,0.8)" stroke="url(#cg)" stroke-width="2.5"/>
+        <line x1="100" y1="10" x2="100" y2="195" stroke="#c9a84c" stroke-width="1.5" opacity="0.5"/>
+        <line x1="25" y1="102" x2="175" y2="102" stroke="#c9a84c" stroke-width="1.5" opacity="0.5"/>
+        <text x="62" y="88" text-anchor="middle" font-size="32" fill="#ae0001">🦁</text>
+        <text x="137" y="88" text-anchor="middle" font-size="28" fill="#1a6e3a">🐍</text>
+        <text x="62" y="160" text-anchor="middle" font-size="28" fill="#3a5a9e">🦅</text>
+        <text x="137" y="160" text-anchor="middle" font-size="28" fill="#d4a017">🦡</text>
+        <text x="100" y="30" text-anchor="middle" font-family="serif" font-size="14" fill="#c9a84c" font-weight="bold">⚡</text>
+      </svg>
+    </div>
+    <h1 class="home-title">霍格沃茨<br>分院测试</h1>
+    <p class="home-subtitle">· Hogwarts Sorting & Personality ·</p>
+    <div class="gold-divider"></div>
+    <p class="home-desc">四十五道题，四大学院，五种人格。<br>让分院帽读取你内心深处的魔法，<br>在二十种命运之中，寻见属于你的那一个。</p>
+    <button class="btn-start" onclick="startQuiz()">✦ 开始测试 ✦</button>
+    <p class="disclaimer">⚠️ 本测试结果仅供娱乐参考，不构成任何专业心理诊断或医疗建议。大五人格维度解读基于科普简化，如需专业评估请咨询持证心理咨询师。测试结果不代表个人能力高低，请理性看待。</p>
+  </section>
+
+  <!-- PAGE 2: QUIZ -->
+  <section id="page-quiz" class="page">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-scene" id="scene-label">场景一 · 对角巷</span>
+        <span class="progress-count" id="progress-count">1 / 45</span>
+      </div>
+      <div class="progress-bar-track"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+    <div class="question-card">
+      <div class="scene-label" id="q-scene"></div>
+      <div class="question-num" id="q-num"></div>
+      <p class="question-text" id="q-text"></p>
+      <ul class="options-list" id="options-list"></ul>
+    </div>
+    <div class="quiz-nav">
+      <button class="btn-nav" id="btn-prev" onclick="prevQuestion()">← 返回</button>
+      <button class="btn-nav primary" id="btn-next" onclick="nextQuestion()">继续 →</button>
+    </div>
+  </section>
+
+  <!-- PAGE 3: LOADING -->
+  <section id="page-loading" class="page">
+    <div class="sorting-hat-wrap">🎩</div>
+    <p class="loading-text">分院帽正在感知你的灵魂<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></p>
+  </section>
+
+  <!-- PAGE 4: RESULT -->
+  <section id="page-result" class="page">
+    <div class="result-banner" id="result-banner">
+      <span class="house-badge" id="result-badge"></span>
+      <div class="result-house-name" id="result-house-name"></div>
+      <div class="result-house-motto" id="result-house-motto"></div>
+      <div class="result-personality-tag" id="result-personality-tag"></div>
+    </div>
+    <div class="result-desc-card" id="result-desc-card">
+      <h3>🔮 你的魔法人格解析</h3>
+      <div id="result-desc-text"></div>
+    </div>
+<div class="result-desc-card" id="result-sub-card" style="display:none;">
+  <h3>🌙 你的第二倾向</h3>
+  <div id="result-sub-text"></div>
+</div>
+    <div class="ocean-section" id="ocean-section">
+      <h3>📊 大五人格维度</h3>
+      <div id="ocean-bars"></div>
+    </div>
+    <button class="btn-restart" onclick="restartQuiz()">✦ 重新测试 ✦</button>
+  </section>
+</div>
+
+<script>
+/* ============================================================
+   SCENES
+   范围已更新至45题：
+   场景一 Q1-10, 场景二 Q11-20, 场景三 Q21-30,
+   场景四 Q31-40, 场景五(分院帽之问) Q41-45
+============================================================ */
+const SCENES = [
+  { id:1, label:'场景一 · 对角巷',     range:[0,9]  },
+  { id:2, label:'场景二 · 霍格沃茨特快', range:[10,19] },
+  { id:3, label:'场景三 · 校内课程',   range:[20,29] },
+  { id:4, label:'场景四 · 黑暗冒险',   range:[30,39] },
+  { id:5, label:'场景五 · 分院帽之问', range:[40,44] },
+];
+
+/* ============================================================
+   QUESTIONS
+   每题结构: { scene, text, opts:[{text, house, trait, reverse?}] }
+   house: G/S/R/H  trait: O/C/E/A/N  house_only: true = 纯学院题
+   reverse: true = 反向计分题（选项得分取反，由computeScores处理）
+
+   ── 修改说明 ──
+   1. Q6、Q7、Q15、Q22、Q31 改为反向计分题
+      原N类选项重新绑定更合理的学院，不再污染学院分
+   2. 新增Q41-Q45共5道纯学院题（house_only:true），
+      这5题只计学院分，不计入大五维度，且不参与封顶
+   3. 大五-学院交叉题单院封顶值=12（原40题）
+============================================================ */
+const QUESTIONS = [
+/* ── 场景一：对角巷 Q1-10 ── */
+{
+  scene:'场景一 · 对角巷',
+  text:'你第一次踏入对角巷，眼前热闹非凡。你首先被什么吸引？',
+  opts:[
+    {text:'奥利凡德魔杖店——每根魔杖背后都有独特的历史', house:'R', trait:'O'},
+    {text:'光轮2001扫帚展示柜——最快的扫帚，不容错过',   house:'G', trait:'E'},
+    {text:'格林格兹银行的宏伟建筑，思考财富背后的权力逻辑', house:'S', trait:'C'},
+    {text:'韦斯莱双胞胎的玩笑商店，爆炸糖的气味让你忍俊不禁', house:'H', trait:'A'},
+  ]
+},
+{
+  scene:'场景一 · 对角巷',
+  text:'福利斯克的甜品店里，你会点什么？',
+  opts:[
+    {text:'黄油啤酒——经典，暖心，绝对没错',          house:'H', trait:'A'},
+    {text:'蟾蜍巧克力——集齐Famous Witch&Wizard卡牌才是目的', house:'R', trait:'C'},
+    {text:'嚼不烂太妃糖——测试它到底有多奇特',          house:'G', trait:'O'},
+    {text:'什么也不点，暗暗观察每个进店顾客的举动',      house:'S', trait:'C'},
+  ]
+},
+{
+  scene:'场景一 · 对角巷',
+  text:'奥利凡德先生说你的魔杖"选择了你"。你有什么感受？',
+  opts:[
+    {text:'兴奋到颤抖，迫不及待挥动它',          house:'G', trait:'E'},
+    {text:'若有所思，这冥冥缘分背后一定有深意',    house:'R', trait:'O'},
+    {text:'悄悄记住魔杖材质和魔法核，回去查文献',   house:'S', trait:'C'},
+    {text:'心里暖暖的，觉得它需要你好好照顾',      house:'H', trait:'A'},
+  ]
+},
+{
+  scene:'场景一 · 对角巷',
+  text:'你在书店发现一本课程表上没有的禁忌魔法书，你会……',
+  opts:[
+    {text:'二话不说买下，知识本身没有危险，只有用法', house:'R', trait:'O'},
+    {text:'站在原地翻几页，权衡利弊再决定',          house:'S', trait:'C'},
+    {text:'拒绝，规则就是规则，禁忌书不该出现在这里', house:'H', trait:'A'},
+    {text:'买了，因为冒险本身就是一种学习',          house:'G', trait:'E'},
+  ]
+},
+{
+  scene:'场景一 · 对角巷',
+  text:'宠物店里有一只骄傲的猫头鹰、一只会变色的蛤蟆、一只看穿你的猫。你选哪个？',
+  opts:[
+    {text:'猫头鹰——传递书信，它是我与世界的桥梁',    house:'G', trait:'E'},
+    {text:'变色蛤蟆——研究它的变色原理让我着迷',       house:'R', trait:'O'},
+    {text:'猫——神秘、独立，跟我很像',               house:'S', trait:'C'},
+    {text:'蛤蟆——它看起来最需要一个温柔的主人',       house:'H', trait:'A'},
+  ]
+},
+{
+  /* ★ 反向题 Q6
+     原"什么都不点暗暗观察"→S/N 改为 S/C（观察是策略，不是焦虑）
+     反向题逻辑：选项得分在computeScores里不加，改为给其他维度+1
+     此处 reverse:true 标记，scoring时跳过trait计分、只计house */
+  scene:'场景一 · 对角巷',
+  text:'格林格兹的地精行员态度傲慢。你更倾向于……',
+  opts:[
+    {text:'礼貌回应，他们有自己的文化背景，我选择尊重', house:'H', trait:'A'},
+    {text:'保持冷静，激怒银行职员没有任何好处',         house:'S', trait:'C'},
+    {text:'据理力争，傲慢不该被纵容',                   house:'G', trait:'E'},
+    {text:'心里不爽，但冷静分析地精历史后释然了',        house:'R', trait:'O'},
+  ]
+},
+{
+  /* ★ 反向题 Q7：原"婉拒不喜欢失控"→S/N 改为 S/C */
+  scene:'场景一 · 对角巷',
+  text:'韦斯莱双胞胎递给你一颗"欢笑糖"，吃了会笑一小时。你……',
+  opts:[
+    {text:'立刻吃！人生苦短，玩就要玩彻底',            house:'G', trait:'E'},
+    {text:'先问配方和副作用，再决定',                   house:'R', trait:'C'},
+    {text:'收下留着，准备在朋友需要欢笑时送出去',        house:'H', trait:'A'},
+    {text:'婉谢——你不喜欢情绪被外物控制的感觉',         house:'S', trait:'C'},
+  ]
+},
+{
+  scene:'场景一 · 对角巷',
+  text:'你在小巷发现一家隐秘古玩店，橱窗里陈列着一面奇怪的镜子。你走进去……',
+  opts:[
+    {text:'直接问老板镜子的来历和用途',                house:'G', trait:'O'},
+    {text:'先观察店里有哪些人再进',                    house:'S', trait:'C'},
+    {text:'翻遍书架，看有没有记载这面镜子的文献',       house:'R', trait:'O'},
+    {text:'问问价格，也许能买给家人',                   house:'H', trait:'A'},
+  ]
+},
+{
+  scene:'场景一 · 对角巷',
+  text:'你的魔杖第一次意外击碎了旁边一盆花盆。你第一反应是？',
+  opts:[
+    {text:'向花盆主人道歉，主动提出赔偿',              house:'H', trait:'A'},
+    {text:'立刻分析：是手腕角度还是咒语发音出了问题',  house:'R', trait:'C'},
+    {text:'捂嘴偷笑，这种意外感觉好刺激',              house:'G', trait:'E'},
+    {text:'环顾四周看有没有人注意到，尽量低调处理',    house:'S', trait:'C'},
+  ]
+},
+{
+  scene:'场景一 · 对角巷',
+  text:'对角巷里你遇到一个迷路哭泣的麻瓜孩子，你会……',
+  opts:[
+    {text:'立刻蹲下安慰他，带他找大人',                house:'H', trait:'A'},
+    {text:'保持镇定，让周围巫师分头去找家长',           house:'G', trait:'E'},
+    {text:'先用记忆咒保护他，再协调寻人',              house:'R', trait:'C'},
+    {text:'告知附近商店的大人后离开，不擅长处理情感', house:'S', trait:'C'},
+  ]
+},
+
+/* ── 场景二：霍格沃茨特快 Q11-20 ── */
+{
+  scene:'场景二 · 霍格沃茨特快',
+  text:'九又四分之三站台，你跑过墙壁的瞬间，内心是……',
+  opts:[
+    {text:'纯粹的兴奋和自豪，我做到了！',              house:'G', trait:'E'},
+    {text:'好奇：这道墙是如何被施了幻象咒的？',         house:'R', trait:'O'},
+    {text:'有点忐忑，万一这次失效怎么办……',            house:'H', trait:'N'},
+    {text:'平静，这不过是计划中的一个步骤',            house:'S', trait:'C'},
+  ]
+},
+{
+  scene:'场景二 · 霍格沃茨特快',
+  text:'你上了火车，包厢几乎坐满。你会怎么找到位置？',
+  opts:[
+    {text:'大方推开一节包厢门，直接自我介绍',           house:'G', trait:'E'},
+    {text:'找看起来最文静、在看书的同学坐进去',         house:'R', trait:'O'},
+    {text:'找人最少的包厢，能安静一会儿就安静一会儿',   house:'S', trait:'C'},
+    {text:'找有空位的包厢，坐下来问大家叫什么',         house:'H', trait:'A'},
+  ]
+},
+{
+  scene:'场景二 · 霍格沃茨特快',
+  text:'车上小推车的巫师糖果来了，你选：',
+  opts:[
+    {text:'一大袋蟾蜍巧克力，集齐卡牌是正经事',        house:'R', trait:'C'},
+    {text:'各种奇怪口味的比比多味豆，越怪越好玩',       house:'G', trait:'O'},
+    {text:'什么都不买，但把零食分给新认识的同学',       house:'H', trait:'A'},
+    {text:'精心挑选几样质量最好的，不贪多',            house:'S', trait:'C'},
+  ]
+},
+{
+  scene:'场景二 · 霍格沃茨特快',
+  text:'包厢里有人开始争论"哪个学院最好"，你怎么参与？',
+  opts:[
+    {text:'大声发表观点，为自己倾向的学院辩护',         house:'G', trait:'E'},
+    {text:'提出不同学院各有所长的学术论据',            house:'R', trait:'O'},
+    {text:'调和气氛，怕大家闹僵',                     house:'H', trait:'A'},
+    {text:'保持沉默，悄悄观察谁最有说服力',            house:'S', trait:'C'},
+  ]
+},
+{
+  scene:'场景二 · 霍格沃茨特快',
+  text:'火车突然减速，车厢陷入黑暗，一股寒气袭来。你的第一反应？',
+  opts:[
+    {text:'掏出魔杖，光明咒随时准备',                  house:'G', trait:'E'},
+    {text:'保持冷静，这应该是摄魂怪，想快乐的事',       house:'R', trait:'C'},
+    {text:'向旁边同学靠近，大家在一起更安全',           house:'H', trait:'A'},
+    {text:'身体僵住，脑海里浮现出最深的恐惧',           house:'S', trait:'N'},
+  ]
+},
+{
+  /* ★ 反向题 Q15：原"装作没看见"→S/N 改为 S/C（回避是策略选择而非焦虑） */
+  scene:'场景二 · 霍格沃茨特快',
+  text:'你偶然发现包厢里一个同学偷偷哭泣，你会？',
+  opts:[
+    {text:'轻声问他有没有什么需要帮忙的',              house:'H', trait:'A'},
+    {text:'先默默陪着，等他准备好再开口',              house:'R', trait:'O'},
+    {text:'递给他纸巾，直接问发生了什么',              house:'G', trait:'E'},
+    {text:'暂时装作没看见——对方可能需要独处空间',      house:'S', trait:'C'},
+  ]
+},
+{
+  scene:'场景二 · 霍格沃茨特快',
+  text:'你打算在火车上的几个小时里做什么？',
+  opts:[
+    {text:'预习课程书，提前了解每门学科',              house:'R', trait:'C'},
+    {text:'认识尽可能多的新同学',                     house:'G', trait:'E'},
+    {text:'望着窗外的风景发呆，感受魔法世界的美',       house:'H', trait:'O'},
+    {text:'制定一份入学后的目标和计划清单',            house:'S', trait:'C'},
+  ]
+},
+{
+  scene:'场景二 · 霍格沃茨特快',
+  text:'一个高年级斯莱特林生敲开包厢门，想借你的蟾蜍巧克力。你……',
+  opts:[
+    {text:'直接给，帽子决定不了一个人的品质',          house:'H', trait:'A'},
+    {text:'给，但留心观察他的后续行为',                house:'S', trait:'C'},
+    {text:'随手给，没什么大不了',                     house:'G', trait:'E'},
+    {text:'先问他为什么想借，好奇背后的原因',          house:'R', trait:'O'},
+  ]
+},
+{
+  scene:'场景二 · 霍格沃茨特快',
+  text:'如果让你现在给自己一年后的样子写一句话，你希望写的是？',
+  opts:[
+    {text:'我交到了最好的朋友，我爱霍格沃茨',          house:'H', trait:'A'},
+    {text:'我掌握了许多课本之外的魔法知识',           house:'R', trait:'O'},
+    {text:'我在某次危险中挺身而出',                   house:'G', trait:'E'},
+    {text:'我已经知道我想成为什么样的人',              house:'S', trait:'C'},
+  ]
+},
+{
+  scene:'场景二 · 霍格沃茨特快',
+  text:'火车到站，城堡第一次出现在夜空中。你脑海中浮现的第一个念头是？',
+  opts:[
+    {text:'太美了……我要记住这一刻',                  house:'H', trait:'O'},
+    {text:'那些塔楼和走廊里一定有数不清的秘密',        house:'R', trait:'O'},
+    {text:'我要在这里留下属于我的传说',               house:'G', trait:'E'},
+    {text:'这座城堡，终将知道我的名字',               house:'S', trait:'C'},
+  ]
+},
+
+/* ── 场景三：校内课程 Q21-30 ── */
+{
+  scene:'场景三 · 校内课程',
+  text:'变形课上，麦格教授让你把桌上的杯子变成老鼠。你……',
+  opts:[
+    {text:'第一个举手尝试，不管成不成功',              house:'G', trait:'E'},
+    {text:'先在笔记本上写下理论步骤，再动手',          house:'R', trait:'C'},
+    {text:'默默练习，等确有把握再展示',               house:'S', trait:'C'},
+    {text:'偷偷帮旁边不会的同学',                    house:'H', trait:'A'},
+  ]
+},
+{
+  /* ★ 反向题 Q22：原博格特题全部绑N，现改为四院各绑不同特质
+     反向计分：此题所有选项的trait改为体现学院核心价值，
+     N分改为从这道题里"净化"掉——选项中的恐惧内容用来区分学院而非累积N */
+  scene:'场景三 · 校内课程',
+  text:'卢平教授带出了一只博格特。它变成了你最深的恐惧——你举起魔杖，脑海中一片空白。此刻你看见的是什么？',
+  opts:[
+    {text:'你最爱的人正在离你而去，而你伸出手却够不到', house:'H', trait:'A'},
+    {text:'聚光灯下所有人都在嘲笑你，你无处可逃',       house:'G', trait:'E'},
+    {text:'一道永远解不开的门，钥匙就在眼前却怎么也插不进去', house:'R', trait:'O'},
+    {text:'镜子里你的脸变成了另一个人，你不再是你自己', house:'S', trait:'C'},
+  ]
+},{
+  scene:'场景三 · 校内课程',
+  text:'斯内普在魔药课上点名提问，你完全不知道答案。你的反应？',
+  opts:[
+    {text:'直接说"我不知道，教授"，坦然承认',         house:'G', trait:'E'},
+    {text:'努力回忆，哪怕答不全也说个方向',           house:'R', trait:'O'},
+    {text:'保持面无表情，不给他看出你的慌张',         house:'S', trait:'C'},
+    {text:'脸红心跳，差点说错话',                    house:'H', trait:'N'},
+  ]
+},
+{
+  scene:'场景三 · 校内课程',
+  text:'草药学课上，你的魔草突然咬了你的手指，你会……',
+  opts:[
+    {text:'哈哈大笑，给同学复述这件趣事',             house:'G', trait:'E'},
+    {text:'立刻记录被咬时的具体状态，用于研究',        house:'R', trait:'C'},
+    {text:'默默处理伤口，不想引起注意',               house:'S', trait:'C'},
+    {text:'关心一下那株草有没有因为咬人而受惊',        house:'H', trait:'A'},
+  ]
+},
+{
+  scene:'场景三 · 校内课程',
+  text:'占卜课上，特里劳妮教授说你的茶叶里有"危险与荣耀并存的未来"，你……',
+  opts:[
+    {text:'觉得很酷，期待那一天的到来',               house:'G', trait:'E'},
+    {text:'保持怀疑，占卜学的预测准确率有多少？',       house:'R', trait:'O'},
+    {text:'若有所思，暗自制定应对计划',               house:'S', trait:'C'},
+    {text:'有点担忧，希望它不要真的发生',              house:'H', trait:'N'},
+  ]
+},
+{
+  scene:'场景三 · 校内课程',
+  text:'你在图书馆发现一本被人写满注释的旧版魔药书，你会……',
+  opts:[
+    {text:'反复研读注释，它们可能是天才的思路',        house:'R', trait:'O'},
+    {text:'交给马达姆·平斯，这不是你的东西',          house:'H', trait:'A'},
+    {text:'试用其中一条"改良配方"注释',              house:'G', trait:'O'},
+    {text:'先查清楚这本书原本属于谁，再决定',          house:'S', trait:'C'},
+  ]
+},
+{
+  scene:'场景三 · 校内课程',
+  text:'飞行课上，你的扫帚不听话一直往左飘。你……',
+  opts:[
+    {text:'强行控制，靠意志力飞完全程',               house:'G', trait:'C'},
+    {text:'下来检查扫帚有没有咒语问题',               house:'R', trait:'C'},
+    {text:'换一把扫帚，不必在一棵树上吊死',           house:'S', trait:'O'},
+    {text:'向老师请教，也许是我的姿势有问题',          house:'H', trait:'A'},
+  ]
+},
+{
+  scene:'场景三 · 校内课程',
+  text:'你期末考试前的备考方式是？',
+  opts:[
+    {text:'制定详细时间表，按部就班',                 house:'S', trait:'C'},
+    {text:'拉上朋友互相抽考，边复习边聊天',            house:'H', trait:'E'},
+    {text:'大量阅读延伸材料，超出考纲才有意思',        house:'R', trait:'O'},
+    {text:'最后两天冲刺，压力下发挥更好',             house:'G', trait:'N'},
+  ]
+},
+{
+  scene:'场景三 · 校内课程',
+  text:'小组作业意见分歧，你会？',
+  opts:[
+    {text:'大胆提出自己的方案并说服大家',             house:'G', trait:'E'},
+    {text:'综合各方意见，提出折中但完整的方案',        house:'R', trait:'A'},
+    {text:'如果我的方案最好，我会坚持到底',           house:'S', trait:'C'},
+    {text:'退一步，采用大家最认可的那个',             house:'H', trait:'A'},
+  ]
+},
+{
+  scene:'场景三 · 校内课程',
+  text:'如果可以选一门霍格沃茨不存在的新课，你选：',
+  opts:[
+    {text:'魔法生物行为学——研究每种生物的内心世界',   house:'R', trait:'O'},
+    {text:'领导与危机应对——关键时刻如何带领大家',     house:'G', trait:'E'},
+    {text:'魔法心理学——研究人为什么这样行事',        house:'S', trait:'O'},
+    {text:'跨族群协作课——如何和精灵、人马等种族共处', house:'H', trait:'A'},
+  ]
+},
+
+/* ── 场景四：黑暗冒险 Q31-40 ── */
+{
+  /* ★ 反向题 Q31：原"在门口观察等待线索"→S/N 改为 S/C */
+  scene:'场景四 · 黑暗冒险',
+  text:'深夜你发现走廊里有一扇从未见过的门微微敞开……',
+  opts:[
+    {text:'推门走进去，探险就是为了这一刻',            house:'G', trait:'O'},
+    {text:'先记录下位置，白天再来研究',               house:'R', trait:'C'},
+    {text:'告诉好友一起来，一个人不安全',             house:'H', trait:'A'},
+    {text:'在门口冷静观察，等待更多线索再行动',        house:'S', trait:'C'},
+  ]
+},
+{
+  scene:'场景四 · 黑暗冒险',
+  text:'你在禁林边缘听到奇怪的声音，你……',
+  opts:[
+    {text:'举起魔杖走进去查看',                      house:'G', trait:'E'},
+    {text:'判断声音的频率和方向，做出分析',            house:'R', trait:'O'},
+    {text:'悄悄退开，禁林里的事最好不要惹',           house:'S', trait:'C'},
+    {text:'担心是受伤的动物，考虑进去救助',            house:'H', trait:'A'},
+  ]
+},
+{
+  scene:'场景四 · 黑暗冒险',
+  text:'你独自站在厄里斯魔镜前，镜中的画面让你挪不开眼。你看见了什么？',
+  opts:[
+    {text:'那些你以为再也见不到的人，此刻就站在你身边，正微笑着看你', house:'H', trait:'A'},
+    {text:'一本翻开的古籍，里面写着从未有人破解过的咒语，而你看懂了', house:'R', trait:'O'},
+    {text:'一个辉煌的时刻，全场沸腾，所有人都在喊你的名字',            house:'S', trait:'E'},
+    {text:'一场已经结束的危机，你环顾四周，身边每一个人都安然无恙',    house:'G', trait:'C'},
+  ]
+},
+{
+  scene:'场景四 · 黑暗冒险',
+  text:'执行危险任务时，突然出现未曾预料的障碍。你会？',
+  opts:[
+    {text:'临机应变，当机立断做出决策',               house:'G', trait:'E'},
+    {text:'快速整合信息，找到逻辑上最优的解法',        house:'R', trait:'C'},
+    {text:'先确保同伴安全，再应对障碍',               house:'H', trait:'A'},
+    {text:'冷静重新评估任务价值，必要时撤退',          house:'S', trait:'C'},
+  ]
+},
+{
+  scene:'场景四 · 黑暗冒险',
+  text:'食死徒逼近，你意识到正面对抗没有胜算。你的第一反应是？',
+  opts:[
+    {text:'豁出去硬冲，哪怕受伤也要为同伴争取撤退时间', house:'G', trait:'E'},
+    {text:'佯装投降，等对方放松警惕再寻找破局机会',     house:'S', trait:'C'},
+    {text:'迅速分析现场，找到最省力的脱身路线',         house:'R', trait:'O'},
+    {text:'大声呼叫同伴，先把所有人聚在一起再说',       house:'H', trait:'A'},
+  ]
+},
+{
+  scene:'场景四 · 黑暗冒险',
+  text:'任务结束，你发现一个朋友过程中对你有所隐瞒。你的感受是？',
+  opts:[
+    {text:'愤怒，直接找他当面对质',                  house:'G', trait:'E'},
+    {text:'冷静，先想清楚他隐瞒的可能原因',           house:'R', trait:'O'},
+    {text:'心痛，信任一旦碎了就很难修复',             house:'H', trait:'N'},
+    {text:'把这件事默默记住，以后不再轻信',           house:'S', trait:'C'},
+  ]
+},
+{
+  scene:'场景四 · 黑暗冒险',
+  text:'如果你必须独自面对一条巨大的蛇，你会……',
+  opts:[
+    {text:'用石化咒直接应对',                        house:'G', trait:'E'},
+    {text:'回想书中关于蛇类弱点的知识',               house:'R', trait:'C'},
+    {text:'保持安静不激怒它，慢慢绕开',               house:'S', trait:'C'},
+    {text:'对它说话，也许它能感受到善意',             house:'H', trait:'A'},
+  ]
+},
+{
+  scene:'场景四 · 黑暗冒险',
+  text:'胜利后，你最希望听到的话是什么？',
+  opts:[
+    {text:'"你保护了每一个人，大家都记得你"',          house:'H', trait:'A'},
+    {text:'"你的决策完美无缺，令人叹服"',             house:'R', trait:'C'},
+    {text:'"你的勇气改变了一切"',                   house:'G', trait:'E'},
+    {text:'"你终于向所有人证明了自己的实力"',          house:'S', trait:'C'},
+  ]
+},
+{
+  scene:'场景四 · 黑暗冒险',
+  text:'多年后，你希望留下的遗产是？',
+  opts:[
+    {text:'一段无论如何都不曾后悔过的情谊',           house:'H', trait:'A'},
+    {text:'一项改写魔法史的研究或发现',               house:'R', trait:'O'},
+    {text:'一个在最艰难时刻让人想起你名字的传说',      house:'G', trait:'E'},
+    {text:'一种只有少数人知道其深度的影响力',          house:'S', trait:'C'},
+  ]
+},
+{
+  scene:'场景四 · 黑暗冒险',
+  text:'如果你可以选择，你真正想要什么？',
+  opts:[
+    {text:'我想要在最重要的时刻，有人说"还好有你"',    house:'H', trait:'A'},
+    {text:'我想要真正理解这个世界运转的逻辑',          house:'R', trait:'O'},
+    {text:'我想要留下一道别人无法忽视的印记',          house:'S', trait:'E'},
+    {text:'我想要用双手改变我能改变的一切',           house:'G', trait:'C'},
+  ]
+},
+
+/* ── 场景五：分院帽之问 Q41-45（纯学院题，house_only:true）── */
+{
+  scene:'场景五 · 分院帽之问',
+  house_only: true,
+  text:'深夜你独自坐在大厅里，四周安静得只剩烛火。此刻你脑子里在想什么？',
+  opts:[
+    {text:'明天的魁地奇训练，我要带着大家赢下这场', house:'G', trait:'E'},
+    {text:'上周那道没解开的魔法谜题，我还没想通',   house:'R', trait:'O'},
+    {text:'下一步该怎么走，有些人和事需要重新评估', house:'S', trait:'C'},
+    {text:'今天有没有人过得不开心，我明天要去问问', house:'H', trait:'A'},
+  ]
+},
+{
+  scene:'场景五 · 分院帽之问',
+  house_only: true,
+  text:'如果只能带一样东西进霍格沃茨，你选：',
+  opts:[
+    {text:'一把代代相传的魔杖——勇气需要仪式感',       house:'G', trait:'E'},
+    {text:'一本空白的研究日志——知识始于记录',         house:'R', trait:'O'},
+    {text:'一枚家族戒指——提醒自己来自何处、走向何方', house:'S', trait:'C'},
+    {text:'一张好友们的合影——人才是最重要的',         house:'H', trait:'A'},
+  ]
+},
+{
+  scene:'场景五 · 分院帽之问',
+  house_only: true,
+  text:'有人问你："如果今晚你能做任何事而不会被发现，你做什么？"',
+  opts:[
+    {text:'骑上扫帚飞到最高的塔顶，俯瞰整个霍格沃茨',  house:'G', trait:'E'},
+    {text:'去禁书区翻出那几本最想看却被禁止的书',      house:'R', trait:'O'},
+    {text:'悄悄潜入斯莱特林公共休息室，看看里面是什么样', house:'S', trait:'C'},
+    {text:'在凌晨偷偷给每间宿舍门口放一份手写的加油便条', house:'H', trait:'A'},
+  ]
+},
+{
+  scene:'场景五 · 分院帽之问',
+  house_only: true,
+  text:'霍格沃茨突发危机，所有高年级生必须各自承担一项紧急任务。你主动请缨去做哪个？',
+  opts:[
+    {text:'冲进危险区域引开威胁，给其他人争取时间',    house:'G', trait:'E'},
+    {text:'独自去找资料，破解危机背后的根本原因',      house:'R', trait:'O'},
+    {text:'悄悄联络关键人物，在幕后协调整个局面',      house:'S', trait:'C'},
+    {text:'留下来照顾受伤和恐慌的同学，稳住人心',     house:'H', trait:'A'},
+  ]
+},
+{
+  scene:'场景五 · 分院帽之问',
+  house_only: true,
+  text:'分院帽最终宣布结果前，它说："你最害怕被哪个学院拒绝？"你诚实回答：',
+  opts:[
+    {text:'格兰芬多——我怕自己没有他们那种真正的勇气', house:'G', trait:'E'},
+    {text:'拉文克劳——我怕自己还不够聪明、不够深刻',  house:'R', trait:'O'},
+    {text:'斯莱特林——我怕自己太软弱、太容易妥协',    house:'S', trait:'C'},
+    {text:'赫奇帕奇——我怕自己其实没那么在乎别人',    house:'H', trait:'A'},
+  ]
+},
+];
+
+/* ============================================================
+   HOUSES
+============================================================ */
+const HOUSES = {
+  G:{name:'格兰芬多',en:'Gryffindor',badge:'🦁',motto:'哪里有险，我便赴往',
+     color1:'#ae0001',color2:'#eeba30',textColor:'#eeba30',
+     bg:'linear-gradient(160deg,#3a0002,#1a0001)',shadow:'rgba(174,0,1,0.5)'},
+  S:{name:'斯莱特林',en:'Slytherin',badge:'🐍',motto:'聪明者善用一切，包括黑暗',
+     color1:'#1a472a',color2:'#aaaaaa',textColor:'#5aba7a',
+     bg:'linear-gradient(160deg,#0a1f0f,#050e07)',shadow:'rgba(26,71,42,0.6)'},
+  R:{name:'拉文克劳',en:'Ravenclaw',badge:'🦅',motto:'智慧是比勇气更持久的武器',
+     color1:'#0e1a40',color2:'#946b2d',textColor:'#7ba7e8',
+     bg:'linear-gradient(160deg,#060d24,#030710)',shadow:'rgba(14,26,64,0.7)'},
+  H:{name:'赫奇帕奇',en:'Hufflepuff',badge:'🦡',motto:'善良与忠诚，比任何魔法都强大',
+     color1:'#ecb939',color2:'#372e29',textColor:'#ecb939',
+     bg:'linear-gradient(160deg,#2a2000,#150e00)',shadow:'rgba(236,185,57,0.4)'},
+};
+
+/* ============================================================
+   TRAITS
+============================================================ */
+const TRAITS = {
+  O:{name:'开放性 (Openness)',    desc:'好奇、富想象力，享受新体验与思维探索'},
+  C:{name:'尽责性 (Conscientiousness)',desc:'有条理、目标明确，行动力强且自律'},
+  E:{name:'外向性 (Extraversion)', desc:'精力充沛，热衷社交，在人群中获取动力'},
+  A:{name:'宜人性 (Agreeableness)',desc:'温暖、体贴，重视和谐与他人的感受'},
+  N:{name:'神经质 (Neuroticism)', desc:'情绪波动较大，感受深刻，容易焦虑，但也因此拥有超强共情力'},
+};
+
+/* ============================================================
+   RESULTS (20种)
+============================================================ */
+const RESULTS = {
+  G_O:{tag:'好奇的勇士',desc:'你是一头真正意义上的探险家——不仅敢于直闯禁林，更永远对世界充满疑问。你的勇气从不是莽撞，而是对未知的好奇心给了你前进的燃料。就像纳威·隆巴顿在危机中发现自己对植物学的热爱，你在行动中找寻意义。脑子里转的永远是"如果……"，而双脚已经迈进了门。'},
+  G_C:{tag:'铁律的守护者',desc:'你是格兰芬多的脊梁。勇气对你而言不是冲动，而是一种严肃的承诺——你许下的诺言，就是不可撤回的誓言。就像麦格教授那样，你用纪律磨砺热情，用原则守护热血。在混乱中你是那个镇定整理阵线的人，别人仰赖你，因为你从不乱来。'},
+  G_E:{tag:'照耀众人的火焰',desc:'你是房间里最亮的光。勇敢、活力四射，你的笑声像燃起的壁炉，会让每个人都感到温暖。哈利·波特在困境中仍能让周围人振奋，这一点和你如出一辙。你的天赋不只是无所畏惧，而是你的无所畏惧会感染别人，让整个团队相信"我们能赢"。'},
+  G_A:{tag:'燃烧的温柔',desc:'世人以为格兰芬多是冲锋陷阵的，但你告诉他们，勇气也可以是低下头来替人抹眼泪。你的胆量在面对痛苦时更显珍贵——你不怕脆弱，因为你知道真正的强大，是允许自己关怀别人。罗恩·韦斯莱那种笨拙又赤诚的温暖，在你身上焕发着另一种光。'},
+  G_N:{tag:'燃烧的脆皮战士',desc:'你的勇气是真实的，但代价是你比任何人都更能感受到恐惧本身。情绪对你来说从不是背景噪音——它是前景，有时甚至是整个画面。你会在冲动后懊悔，会在深夜反复回想一句无心的话。但正因如此，你在最艰难的时刻迈出那一步，比别人多付出了十倍的重量。'},
+  S_O:{tag:'深渊的思想家',desc:'你是斯莱特林里那颗最难被定义的星。你的聪明不是精于算计，而是对黑暗与光明边界的永恒好奇。你知道真正危险的不是黑魔法本身，而是无知。你更像年轻的格林德沃——对权力之外的真理有着偏执的渴望，而那份渴望，才是你真正的力量。'},
+  S_C:{tag:'棋局里的王',desc:'你生来就是战略家。你的每一步都经过计算，每一句话都有其意图，而这不是因为你虚伪，而是因为你真的在认真下这盘棋。斯内普的那种"多年一局、一击必中"的隐忍和周密，是你精神上的亲人。你不需要被人理解，只需要在最后时刻，让所有人明白你的选择。'},
+  S_E:{tag:'舞台上的暗光',desc:'你喜欢被人注意，但方式是你定义的。你不是哗众取宠，而是你站在哪里，哪里就会变成舞台。德拉科·马尔福的傲慢里，其实藏着一个渴望被看见的灵魂——你深知这一点，因为你也懂那种渴望。你的魅力是锋利的，但刺到的人往往会再靠近。'},
+  S_A:{tag:'隐秘的守护者',desc:'世界不知道的是：斯莱特林里有一种人，用尽一生保护那些自己永远不会坦白爱过的人。你就是这种人。斯内普式的牺牲——用傲慢与冷酷的外壳，包裹着最炽热的忠诚——不是表演，是你内心深处真实运作的方式。你的温柔，只有值得的人才能看见。'},
+  S_N:{tag:'暗水中的镜子',desc:'你是斯莱特林最敏感的那一个，感知人心的能力强到疲惫——你太清楚每句话背后可能藏着什么，但这种敏锐是双刃剑，所以你选择隐藏自己。你不是天生冷漠，你只是学会了用冷漠保护那个其实很容易受伤的自己。'},
+  R_O:{tag:'追星的学者',desc:'你是拉文克劳中最像卢娜·洛夫古德的那种人——你的好奇心不只是学术的，而是诗意的、宇宙级的。别人问"这是什么"，你问"这为什么存在"。你的书桌上永远叠着不相关的书，笔记本里写满了没有人提出过的问题。这个世界在你眼里，永远比现实的更大。'},
+  R_C:{tag:'精密的探索者',desc:'你对智识的追求有着赫敏·格兰杰式的严谨，但驱动你的不是考试，而是真正的理解。你的笔记是一件艺术品，你的推理链条找不到漏洞。你相信知识是有结构的，而那个结构终会被你找到。拉文克劳图书馆如果有人最后关灯，那个人一定是你。'},
+  R_E:{tag:'知识的传播者',desc:'你有一种罕见的天赋：把最复杂的知识说得让每个人都想听。你不是为了表演，而是因为你真心觉得这些东西太好了，必须分享。菲力兹教授那种手舞足蹈的激情，在你课余的聊天里每天上演。你的朋友圈里，你永远是那个"你知道吗……"的开头。'},
+  R_A:{tag:'温柔的智者',desc:'你用知识来爱人。你会在朋友失眠时给他讲一个奇特的天文现象，在对方哭泣时递上一条有趣的知识，因为你相信理解可以治愈很多事。卢娜式的善良——不评判，只是照亮——是你人格里最美的一面。图书馆里温暖人心的那盏灯，就是你。'},
+  R_N:{tag:'孤独的星图',desc:'你的内心像拉文克劳塔顶的天文台：辽阔、精准、经常寂寞。对细节的敏感让你看见别人忽视的美，也让你陷入别人感觉不到的焦虑——一个措辞、一个眼神，都能在你脑子里演化成完整的灾难预案。你不是脆弱，你只是处理信息的频率比普通人高太多，而这个世界还没有给这种人设计足够的休息室。'},
+  H_O:{tag:'温暖的探险家',desc:'你是赫奇帕奇里最爱惊喜的那朵。你的好奇心和你的善良一样大——你对世界的爱不是占有，而是想更了解它，然后把这份了解分享给所有人。就像纽特·斯卡曼德，你眼里的"怪物"不过是被误解的奇迹，而你有耐心去等待它们展开。'},
+  H_C:{tag:'忠诚的建造者',desc:'你用行动定义忠诚。你承诺的事情不需要再提醒，你分配给自己的责任不需要别人督促。赫奇帕奇不是最耀眼的学院，但它是最可靠的，就像你。你建造的东西不是用来炫耀的，是用来住人的——温暖、坚固、经得起时间。'},
+  H_E:{tag:'人间的阳光',desc:'走进你在的房间，空气都变得不一样。你不是最大声的那个，但你是让每个人都觉得被看见的那个。赫奇帕奇的公共休息室总是挤满人，因为那里有你这样的人。赛德里克·迪戈里受所有人爱戴，不是因为他最厉害，而是因为他真的关心所有人，这一点和你如出一辙。'},
+  H_A:{tag:'大地的心脏',desc:'你是最纯粹意义上的"宜人"——不是软弱，而是真的觉得别人的快乐比你自己的还重要，真的愿意在所有人离开后留下来打扫。赫奇帕奇地下室的温暖不是来自暖气，是来自你这样的人。你的存在让世界变得安全一点，而大多数人一辈子都不知道那个安全感是谁给的。'},
+  H_N:{tag:'共情的守望者',desc:'你的心是一个放大镜，别人的情绪经过你会被放大好几倍。这让你成为最好的倾听者，也让你在人群散去后独自消化大量不属于自己的重量。你很难说"这不关我的事"，即使说了也会内疚。赫奇帕奇的善良在你这里有时候是负担——你需要偶尔允许自己，也是需要被照顾的那个人。'},
+};
+
+const SUB_RESULTS = {
+  G_O:'好奇心是你勇气的燃料，你冲进去之前总要先问一句"为什么"。',
+  G_C:'你的热血从不是冲动，承诺一旦开口就是铁律。',
+  G_E:'你是那种走进房间所有人都会注意到的人，自己却浑然不觉。',
+  G_A:'你会在最激烈的争吵里突然心软，因为你更在意人。',
+  G_N:'你感受到的恐惧比别人深，但迈出那一步时比任何人都重。',
+  S_O:'你对禁忌和边界天生好奇，规则在你眼里是用来理解的，不只是用来遵守的。',
+  S_C:'你走的每一步都在棋盘上，只是别人还没看见那盘棋。',
+  S_E:'你不需要最大声，你只需要开口，房间就会安静下来听你说。',
+  S_A:'你保护人的方式从不声张，有时连被保护的人都不知道。',
+  S_N:'你用冷漠保护自己，但那道壳里住着一个其实很容易受伤的人。',
+  R_O:'你问的问题永远比别人多一层，而且你真的想知道答案。',
+  R_C:'你的笔记是艺术品，你的推理链条找不到漏洞。',
+  R_E:'你能把最复杂的事情说得让所有人都想听，而且你乐在其中。',
+  R_A:'你用知识爱人——在朋友最难受的时候，你会讲一个有趣的冷知识。',
+  R_N:'你的脑子从不停转，安静的夜里它跑得最快，有时把你带去不该去的地方。',
+  H_O:'你对世界的好奇不是为了占有，而是想更了解它，然后分享给每一个人。',
+  H_C:'你答应的事不需要提醒，你扛着的责任不需要人看见。',
+  H_E:'你让每个人都觉得被看见，这是比任何魔法都难学的本事。',
+  H_A:'你觉得别人的快乐比自己的重要，这不是软弱，这是你选择的方式。',
+  H_N:'你替所有人把情绪接住了，但有时候忘了自己也需要有人接着。',
+};
+
+
+/* ============================================================
+   STATE
+============================================================ */
+let currentQ = 0;
+let answers  = new Array(QUESTIONS.length).fill(null);
+let scores   = {G:0,S:0,R:0,H:0,O:0,C:0,E:0,A:0,N:0};
+
+/* ============================================================
+   PAGE NAV
+============================================================ */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+}
+
+/* ============================================================
+   QUIZ
+============================================================ */
+function startQuiz() {
+  if (loadProgress() && answers.some(a => a !== null)) {
+    showPage('quiz');
+    renderQuestion();
+    return;
+  }
+  currentQ = 0;
+  answers  = new Array(QUESTIONS.length).fill(null);
+  scores   = {G:0,S:0,R:0,H:0,O:0,C:0,E:0,A:0,N:0};
+  showPage('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q   = QUESTIONS[currentQ];
+  const num = currentQ + 1;
+  const tot = QUESTIONS.length;
+  const pct = Math.round((num-1)/tot*100);
+  document.getElementById('progress-fill').style.width = pct+'%';
+  document.getElementById('progress-count').textContent = `${num} / ${tot}`;
+  const sceneObj = SCENES.find(s => num-1 >= s.range[0] && num-1 <= s.range[1]);
+  document.getElementById('scene-label').textContent = sceneObj ? sceneObj.label : '';
+  document.getElementById('q-scene').textContent = q.scene;
+  document.getElementById('q-num').textContent = `第 ${num} 题`;
+  document.getElementById('q-text').textContent = q.text;
+  const letters = ['A','B','C','D'];
+  const ol = document.getElementById('options-list');
+  ol.innerHTML = '';
+  q.opts.forEach((opt,i) => {
+    const li  = document.createElement('li');
+    const btn = document.createElement('button');
+    btn.className = 'option-btn' + (answers[currentQ]===i ? ' selected' : '');
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span>${opt.text}`;
+    btn.onclick = () => selectOption(i);
+    li.appendChild(btn);
+    ol.appendChild(li);
+  });
+  document.getElementById('btn-prev').disabled = currentQ === 0;
+  const isLast = currentQ === QUESTIONS.length-1;
+  document.getElementById('btn-next').textContent = isLast ? '提交 ✦' : '继续 →';
+}
+
+function selectOption(idx) {
+  answers[currentQ] = idx;
+  document.querySelectorAll('.option-btn').forEach((b,i) => b.classList.toggle('selected', i===idx));
+  saveProgress(); // 加这行
+}
+
+function nextQuestion() {
+  if (answers[currentQ] === null) {
+    document.querySelector('.question-card').style.border = '1px solid #c9a84c';
+    setTimeout(() => document.querySelector('.question-card').style.border = '', 600);
+    return;
+  }
+  const isLast = currentQ === QUESTIONS.length-1;
+  if (!isLast) { currentQ++; renderQuestion(); }
+  else { computeScores(); showLoading(); }
+}
+
+function prevQuestion() {
+  if (currentQ > 0) { currentQ--; renderQuestion(); }
+}
+
+/* ============================================================
+   SCORING
+   规则：
+   · 纯学院题(house_only):  只加 houseScores，不加 traitScores
+   · 普通交叉题:            houseScores += 1，traitScores += 1
+   · 大五-学院交叉题单院封顶 = 12（保护分布均衡）
+   · 纯学院题分值不参与封顶
+============================================================ */
+function computeScores() {
+  const CAP = 12; // 普通题单院封顶
+  const TRAIT_CAP = 13;
+  const houseRaw   = {G:0,S:0,R:0,H:0};
+  const housePure  = {G:0,S:0,R:0,H:0}; // 纯学院题独立累计
+  const traitScores= {O:0,C:0,E:0,A:0,N:0};
+
+  QUESTIONS.forEach((q, qi) => {
+    if (answers[qi] === null) return;
+    const opt = q.opts[answers[qi]];
+    if (q.house_only) {
+      housePure[opt.house] = (housePure[opt.house]||0) + 1;
+    } else {
+      // 普通题：学院分受封顶
+      if (houseRaw[opt.house] < CAP) {
+        houseRaw[opt.house]++;
+      }
+      // 大五分
+      if ((traitScores[opt.trait]||0) < TRAIT_CAP) {
+        traitScores[opt.trait] = (traitScores[opt.trait]||0) + 1;
+      }
+    }
+  });
+
+  // 合并学院分：普通题封顶后 + 纯学院题不限
+  scores = {
+    G: houseRaw.G + housePure.G,
+    S: houseRaw.S + housePure.S,
+    R: houseRaw.R + housePure.R,
+    H: houseRaw.H + housePure.H,
+    ...traitScores,
+  };
+}
+
+/* ============================================================
+   LOADING
+============================================================ */
+function showLoading() {
+  showPage('loading');
+  setTimeout(() => { buildResult(); showPage('result'); animateResult(); }, 2800);
+}
+
+/* ============================================================
+   RESULT
+============================================================ */
+function buildResult() {
+  // 学院：最高分，同分破局 R>G>H>S
+  let topHouse = ['G','S','R','H'].reduce((a,b) => 
+  scores[a] > scores[b] ? a : 
+  scores[a] < scores[b] ? b : 
+  Math.random() < 0.5 ? a : b
+);
+
+  // 大五：最高维度，同分破局 O>C>E>A>N
+  let topTrait = ['O','C','E','A','N'].reduce((a,b) =>
+  scores[a] > scores[b] ? a :
+  scores[a] < scores[b] ? b :
+  Math.random() < 0.5 ? a : b
+);
+
+  const house  = HOUSES[topHouse];
+  const resKey = `${topHouse}_${topTrait}`;
+  const result = RESULTS[resKey] || RESULTS[`${topHouse}_O`];
+
+  const banner = document.getElementById('result-banner');
+  banner.style.background  = house.bg;
+  banner.style.boxShadow   = `0 0 60px ${house.shadow}, inset 0 0 40px rgba(0,0,0,0.5)`;
+  banner.style.borderColor = house.color1;
+  document.getElementById('result-badge').textContent         = house.badge;
+  document.getElementById('result-house-name').textContent    = house.name;
+  document.getElementById('result-house-name').style.color    = house.textColor;
+  document.getElementById('result-house-motto').textContent   = `"${house.motto}"`;
+  document.getElementById('result-house-motto').style.color   = house.textColor;
+  document.getElementById('result-personality-tag').textContent    = result.tag;
+  document.getElementById('result-personality-tag').style.borderColor = house.textColor;
+  document.getElementById('result-personality-tag').style.color       = house.textColor;
+  document.getElementById('result-desc-text').textContent     = result.desc;
+// 副人格
+const houseOrder2 = ['G','S','R','H'].filter(h => h !== topHouse);
+const subHouse = houseOrder2.reduce((a,b) => scores[a]>=scores[b]?a:b);
+const traitOrder2 = ['O','C','E','A','N'].filter(t => t !== topTrait);
+const subTrait = traitOrder2.reduce((a,b) => scores[a]>=scores[b]?a:b);
+const subKey = `${subHouse}_${subTrait}`;
+const subResult = RESULTS[subKey] || RESULTS[`${subHouse}_O`];
+const subDesc = SUB_RESULTS[subKey] || SUB_RESULTS[`${subHouse}_O`];
+const subCard = document.getElementById('result-sub-card');
+document.getElementById('result-sub-text').innerHTML =
+  `<strong style="color:var(--gold)">${HOUSES[subHouse].badge} ${HOUSES[subHouse].name} · ${subResult.tag}</strong><br><br>${subDesc}`;
+subCard.style.display = 'block';
+
+  const maxT = Math.max(...['O','C','E','A','N'].map(t=>scores[t]||0), 1);
+  document.getElementById('ocean-bars').innerHTML = ['O','C','E','A','N'].map(t => {
+    const pct = Math.round((scores[t]||0)/maxT*100);
+    return `<div class="ocean-bar-item" data-pct="${pct}">
+      <div class="ocean-bar-label">
+        <span class="ocean-bar-name">${TRAITS[t].name}</span>
+        <span class="ocean-bar-val">${pct}%</span>
+      </div>
+      <div class="ocean-bar-track"><div class="ocean-bar-fill" style="width:0%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function animateResult() {
+  document.querySelectorAll(
+    '.house-badge,.result-house-name,.result-house-motto,.result-personality-tag,.result-desc-card,#result-sub-card,.ocean-section,.btn-restart'
+  ).forEach(el => {
+    el.style.opacity = '';
+    el.style.animation = 'none';
+    el.offsetHeight;
+    el.style.animation = '';
+  });
+  setTimeout(() => {
+    document.querySelectorAll('.ocean-bar-item').forEach((item,i) => {
+      setTimeout(() => {
+        item.querySelector('.ocean-bar-fill').style.width = item.dataset.pct+'%';
+      }, i*200);
+    });
+  }, 1500);
+}
+
+function restartQuiz() {
+  clearProgress();
+  currentQ = 0;
+  answers = new Array(QUESTIONS.length).fill(null);
+  scores = {G:0,S:0,R:0,H:0,O:0,C:0,E:0,A:0,N:0};
+  showPage('home');
+}
+
+/* ============================================================
+   BGM
+============================================================ */
+let bgmPlaying = false;
+function toggleBGM() {
+  const bgm = document.getElementById('bgm');
+  const btn = document.getElementById('bgmBtn');
+  if (bgmPlaying) {
+    bgm.pause();
+    btn.textContent = '🎵 BGM';
+    btn.style.opacity = '0.6';
+    bgmPlaying = false;
+  } else {
+    bgm.play().then(() => {
+      btn.textContent = '🔊 BGM ▶';
+      btn.style.opacity = '1';
+      bgmPlaying = true;
+    }).catch(() => {
+      btn.textContent = '❌ 链接失效';
+    });
+  }
+}
+document.querySelector('.btn-start').addEventListener('click', () => {
+  if (!bgmPlaying) toggleBGM();
+});
+// 答题缓存：每次选择后自动保存，刷新后恢复
+function saveProgress() {
+  localStorage.setItem('hg_answers', JSON.stringify(answers));
+  localStorage.setItem('hg_currentQ', currentQ);
+}
+function loadProgress() {
+  const saved = localStorage.getItem('hg_answers');
+  const savedQ = localStorage.getItem('hg_currentQ');
+  if (saved) {
+    answers = JSON.parse(saved);
+    currentQ = parseInt(savedQ) || 0;
+    return true;
+  }
+  return false;
+}
+function clearProgress() {
+  localStorage.removeItem('hg_answers');
+  localStorage.removeItem('hg_currentQ');
+}
+</script>
+</body>
+</html>
